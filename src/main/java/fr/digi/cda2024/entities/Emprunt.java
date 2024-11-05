@@ -3,6 +3,7 @@ package fr.digi.cda2024.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class Emprunt {
     private int Id;
 
     @Column(name = "DATE_DEBUT")
-    private LocalDateTime debutEmprunt;
+    private LocalDateTime dateDebut;
 
     @Column(name = "DELAI")
     private int delaiMax;
@@ -38,13 +39,21 @@ public class Emprunt {
 
     @Override
     public String toString() {
+        DateTimeFormatter formateurDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         final StringBuilder sb = new StringBuilder("Emprunt{");
         sb.append("Id=").append(Id);
-        sb.append(", debutEmprunt=").append(debutEmprunt);
+        sb.append(", debutEmprunt=").append(dateDebut.format(formateurDate));
         sb.append(", delaiMax=").append(delaiMax);
-        sb.append(", dateFin=").append(dateFin);
-        sb.append(", client=").append(client);
-        sb.append(", livres=").append(livres);
+
+        if(dateFin != null) {
+            sb.append(", dateFin=").append(dateFin.format(formateurDate));
+        }
+        else {
+            sb.append(", dateFin=no data");
+        }
+
+        sb.append(", ID client=").append(client.getId());
         sb.append('}');
         return sb.toString();
     }
@@ -53,12 +62,12 @@ public class Emprunt {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Emprunt emprunt)) return false;
-        return Id == emprunt.Id && delaiMax == emprunt.delaiMax && Objects.equals(debutEmprunt, emprunt.debutEmprunt) && Objects.equals(dateFin, emprunt.dateFin) && Objects.equals(client, emprunt.client) && Objects.equals(livres, emprunt.livres);
+        return Id == emprunt.Id && delaiMax == emprunt.delaiMax && Objects.equals(dateDebut, emprunt.dateDebut) && Objects.equals(dateFin, emprunt.dateFin) && Objects.equals(client, emprunt.client) && Objects.equals(livres, emprunt.livres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, debutEmprunt, delaiMax, dateFin, client, livres);
+        return Objects.hash(Id, dateDebut, delaiMax, dateFin, client, livres);
     }
 
     /**
@@ -73,15 +82,15 @@ public class Emprunt {
     /** Getter
      * @return debutEmprunt
      */
-    public LocalDateTime getDebutEmprunt() {
-        return debutEmprunt;
+    public LocalDateTime getDateDebut() {
+        return dateDebut;
     }
 
     /** Setter
-     * @param debutEmprunt debutEmprunt
+     * @param dateDebut debutEmprunt
      */
-    public void setDebutEmprunt(LocalDateTime debutEmprunt) {
-        this.debutEmprunt = debutEmprunt;
+    public void setDateDebut(LocalDateTime dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
     /** Getter
