@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("bibliotheque-jpa");
         EntityManager em = emf.createEntityManager();
-        em.getTransaction();
+        em.getTransaction().begin();
 
         // Read/Select
         // tp 01
