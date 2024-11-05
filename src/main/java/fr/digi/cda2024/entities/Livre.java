@@ -2,20 +2,27 @@ package fr.digi.cda2024.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name="LIVRE")
-public class Livre {
+@Table(name = "LIVRE")
+// Serializable = optimisation des requêtes
+public class Livre implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
     private int Id;
 
-    @Column(name="titre")
+    @Column(name = "TITRE", nullable = false)
     private String titre;
 
-    @Column(name="auteur")
+    @Column(name = "AUTEUR", length = 50)
     private String auteur;
+
+    @ManyToMany(mappedBy = "livres")
+    private Set<Emprunt> emprunts;
 
     public Livre() {}
 
@@ -79,5 +86,19 @@ public class Livre {
      */
     public void setAuteur(String auteur) {
         this.auteur = auteur;
+    }
+
+    /** Getter
+     * @return emprunts
+     */
+    public Set<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    /** Setter
+     * @param emprunts emprunts
+     */
+    public void setEmprunts(Set<Emprunt> emprunts) {
+        this.emprunts = emprunts;
     }
 }
